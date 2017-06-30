@@ -19,7 +19,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
 
     @IBOutlet weak var tvTest: UITextField!
     @IBOutlet weak var lbTextPrice: UILabel!
-
+    var starIndex = 0
     override func viewDidLoad() {
         super.viewDidLoad()
     
@@ -29,7 +29,7 @@ class ViewController: UIViewController,UITextFieldDelegate {
 
     lazy var commitBtn: UIButton = {
         
-        let btn = UIButton(frame:CGRect.init(x: 0, y: 100, width: MGScreenWidth, height: 50))
+        let btn = UIButton(frame:CGRect.init(x: 0, y: 300, width: MGScreenWidth, height: 50))
         btn.addTarget(self, action: #selector(commitClickAction), for: .touchUpInside)
         btn.backgroundColor = UIColor.red
         btn.setTitleColor(UIColor.black, for: .normal)
@@ -42,8 +42,11 @@ class ViewController: UIViewController,UITextFieldDelegate {
         
         let vc = WOWBasePickerViewController()
         
-        vc.showPicker(arr: ["a","b","c","d"], index: 2)
-        vc.selectBlock = {(str,index) in
+        vc.showPicker(arr: ["a","b","c","d"], index: starIndex)
+        vc.selectBlock = { [weak self](str,index) in
+            if let strongSelf = self {
+                strongSelf.starIndex = index
+            }
             print(str,index)
         }
         self.presentToMaskViewController(viewControllerToPresent: vc)
